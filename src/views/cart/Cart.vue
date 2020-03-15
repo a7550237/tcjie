@@ -1,14 +1,11 @@
 <template>
-  <div>
-    <p>about</p>
-  </div>
+  <div>cart</div>
 </template>
-
 <script>
 export default {
-  name:'About'
+  
 }
 </script>
-<style scoped>
+<style lang="stylus" scoped>
 
 </style>

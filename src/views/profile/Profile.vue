@@ -1,13 +1,11 @@
 <template>
-  <div>
-    <p>home</p>
-  </div>
+  <div>profile</div>
 </template>
 <script>
 export default {
-  name:'Home'
+  
 }
 </script>
-<style scoped>
+<style lang="stylus" scoped>
 
 </style>

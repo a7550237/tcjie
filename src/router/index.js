@@ -1,33 +1,39 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-/* import Home from '../views/home'
-import About from '../views/about'
-import User from '../views/user' */
-const Home = () => import('../views/home');
-const About = () => import('../views/about');
-const User = () => import('../views/user');
+
+const Home = () => import('../views//home/Home')
+const Category = () => import('../views/category/Category')
+const Cart = () => import('../views/cart/Cart')
+const Profile = () => import('../views/profile/Profile')
 // 1.安装vue-router
 Vue.use(VueRouter)
 // 2.定义变量
+
+const routes = [
+  {
+    path:'/',
+    redirect: '/home'
+  },
+  {
+    path:'/home',
+    component: Home
+  },
+  {
+    path:'/category',
+    component: Category
+  },
+  {
+    path:'/cart',
+    component: Cart
+  },
+  {
+    path:'/profile',
+    component: Profile
+  },
+]
+
 const router = new VueRouter({
-  routes: [
-    {
-      path:"",
-      redirect:'/home'
-    },
-    {
-      path: '/home',
-      component: Home
-    },
-    {
-      path: '/about',
-      component: About
-    },
-    {
-      path:'/user/:aaa',
-      component:User
-    }
-  ],
+  routes,
   mode: 'history'
 })
 // 3导出
