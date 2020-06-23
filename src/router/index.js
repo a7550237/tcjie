@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 const Home = () => import('../views//home/Home')
 const Category = () => import('../views/category/Category')
-const Cart = () => import('../views/cart/Cart')
+const News = () => import('../views/cart/News')
 const Profile = () => import('../views/profile/Profile')
 // 1.安装vue-router
 Vue.use(VueRouter)
@@ -23,8 +23,8 @@ const routes = [
     component: Category
   },
   {
-    path:'/cart',
-    component: Cart
+    path:'/news',
+    component: News
   },
   {
     path:'/profile',

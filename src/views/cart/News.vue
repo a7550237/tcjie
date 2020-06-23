@@ -1,5 +1,5 @@
 <template>
-  <div>cart</div>
+  <div>news</div>
 </template>
 <script>
 export default {
