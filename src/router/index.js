@@ -5,6 +5,7 @@ const Home = () => import('../views//home/Home')
 const Category = () => import('../views/category/Category')
 const News = () => import('../views/cart/News')
 const Profile = () => import('../views/profile/Profile')
+const ArticleDetail = () => import('../views/home/ArticleDetail')
 // 1.安装vue-router
 Vue.use(VueRouter)
 // 2.定义变量
@@ -30,6 +31,10 @@ const routes = [
     path:'/profile',
     component: Profile
   },
+  {
+    path:'/toArticleDetail',
+    component: ArticleDetail
+  }
 ]
 
 const router = new VueRouter({

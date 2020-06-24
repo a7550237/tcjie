@@ -13,7 +13,7 @@ module.exports = {
       .set('assets', resolve('@/assets'))
       .set('network', resolve('@/network'))
   },
-  devServe: {
+  devServer: {
     host: "localhost",
     port: "80",
     hot: true,
