@@ -13,11 +13,20 @@ Vue.use(VueRouter)
 const routes = [
   {
     path:'/',
-    redirect: '/home'
+    redirect: '/home',
+    meta:{
+      keepAlive:true,
+      scrollTop: 0
+    }
   },
   {
     path:'/home',
-    component: Home
+    component: Home,
+    meta:{
+      keepAlive:true,
+      scrollTop: 0
+    }
+    
   },
   {
     path:'/category',

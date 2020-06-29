@@ -1,7 +1,17 @@
 <template>
   <div id="app">
-    <router-view />
-    <MainTabBar :items="items"></MainTabBar>
+    <keep-alive>
+      <router-view v-if='$route.meta.keepAlive'/>
+    </keep-alive>
+    <router-view  v-if='!$route.meta.keepAlive'/>
+    <!-- <MainTabBar :items="items"></MainTabBar> -->
+    <van-tabbar v-model="active" active-color="#07c160" inactive-color="#000" @change="onChange">
+      <van-tabbar-item
+        v-for="(item,index) in items"
+        :key="index"
+        :icon="item.icon"
+      >{{item.itemName}}</van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 
@@ -15,34 +25,34 @@ export default {
         {
           path: "/home",
           itemName: "首页",
-          imgUrl: require("./assets/image/home.svg"),
-          activeImgUrl: require("./assets/image/home_active.svg")
+          icon: "home-o",
+
         },
         {
           path: "/category",
-          itemName: "种类",
-          imgUrl: require("./assets/image/category.svg"),
-          activeImgUrl: require("./assets/image/category_active.svg")
+          itemName: "机器翻译",
+          icon: "search",
+
         },
         {
           path: "/cart",
-          itemName: "购物车",
-          imgUrl: require("./assets/image/shopcart.svg"),
-          activeImgUrl: require("./assets/image/shopcart_active.svg")
+          itemName: "智能写作",
+          icon: "friends-o",
+
         },
         {
           path: "/profile",
-          itemName: "设置",
-          imgUrl: require("./assets/image/profile.svg"),
-          activeImgUrl: require("./assets/image/profile_active.svg")
+          itemName: "加为好友",
+          icon: "setting-o",
         }
       ],
-      key:""
+      active: 0
     };
   },
   methods: {
-    onClick(){
-      alert(this.key);
+    onChange(index) {
+      this.active = index;
+      this.$router.replace(this.items[index].path);
     }
   },
   components: {
