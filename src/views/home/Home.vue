@@ -21,41 +21,30 @@
     </div>
     <van-tabs active="active" @change="onChange">
       <van-tab title="推荐">
-        <van-list
-          v-model="loading"
-          :finished="finished"
-          finished-text="我是有底线的"
-          @load="onLoadList"
-          :immediate-check="false"
-        >
-          <van-card @click="toArticleDetail(item)" v-bind:key="i" v-for="(item,i) in article">
-            <div style="margin-left:30px" slot="title">
-              <b>{{item.title}}</b>
-            </div>
-            <div style="margin-left:30px;margin-top:10px" slot="desc">
-              <em>{{item.attr1}}</em>
-            </div>
-            <div slot="thumb">
-              <van-image :src="item.imgsrc" width="100" height="100" />
-            </div>
-            <div slot="footer">{{item.date}}</div>
-          </van-card>
-        </van-list>
+        <Recommend :searchResult="news" ></Recommend>
       </van-tab>
       <van-tab title="热点">热点</van-tab>
-      <van-tab title="咖谈">咖谈</van-tab>
+      <van-tab title="咖谈">
+        <Talk></Talk>
+      </van-tab>
       <van-tab title="职位">职位</van-tab>
     </van-tabs>
   </div>
 </template>
 <script>
+import Recommend from './recommend/Recommend'
+import Talk from './talk/Talk'
 export default {
   name: "Home",
+  components: {
+    Recommend,
+    Talk
+  },
   data() {
     return {
       value: "",
       imgURL: "https://img.yzcdn.cn/vant/ipad.jpeg",
-      article: [],
+      news: [],
       nullTip: "空空如也~",
       pageSize: 10, // 每页条数
       pageIndex: 1, // 页码
@@ -71,50 +60,20 @@ export default {
       this.$axios
         .request({
           method: "get",
-          url: "/api/article/search?key=" + this.value
+          url: "/api/front/search?key=" + this.value
         })
         .then(data => {
           console.log(data);
-          this.article = data.data;
+          this.news = data.data;
         });
-    },
-    toArticleDetail(article) {
-      var scrollTop = this.$refs.wrapper.scrollTop;
-      console.log(scrollTop);
-      this.scroll =  scrollTop;
-
-      window.localStorage.setItem("article", JSON.stringify(article));
-      this.$router.push({
-        path: "/toArticleDetail"
-      });
-    },
-    // 上拉加载请求方法
-    onLoadList() {
-      this.pageIndex++;
-      this.getArticleList();
     },
     onChange(name, title) {},
     onDownRefresh() {},
-    getArticleList() {
-      this.$axios
-        .request({
-          method: "get",
-          url:
-            "/api/article/getArticleList?pageSize=" +
-            this.pageSize +
-            "&pageIndex=" +
-            this.pageIndex
-        })
-        .then(data => {
-          this.article = this.article.concat(data.data);
-          this.loading = false;
-        });
-    },
     getJobSaray() {
       this.$axios
         .request({
           method: "get",
-          url: "/api/article/saray"
+          url: "/api/front/saray"
         })
         .then(data => {
           var job = data.data;
@@ -153,22 +112,21 @@ export default {
         });
     }
   },
-  components: {},
   mounted() {
-    this.getArticleList();
+    //this.getArticleList();
     this.getJobSaray();
   },
   activated() {
     console.log("首页被激活");
+    //获取滑动坐标
     this.$refs.wrapper.scrollTop = this.scroll;
-    console.log(this.$refs.wrapper.scrollTop);
   },
   deactivated() {
     console.log("首页被缓存");
   },
   beforeRouteLeave(to, from, next) {
-    //设置下一个路由的meta（即首页）
-    // 让首页缓存，即不刷新
+    //缓存滑动坐标
+    this.scroll = this.$refs.wrapper.scrollTop;
     next();
   }
 };

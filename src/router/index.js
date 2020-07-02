@@ -5,6 +5,7 @@ const Home = () => import('../views//home/Home')
 const Category = () => import('../views/category/Category')
 const News = () => import('../views/cart/News')
 const Profile = () => import('../views/profile/Profile')
+const NewsDetail = () => import('../views/home/NewsDetail')
 const ArticleDetail = () => import('../views/home/ArticleDetail')
 // 1.安装vue-router
 Vue.use(VueRouter)
@@ -39,6 +40,10 @@ const routes = [
   {
     path:'/profile',
     component: Profile
+  },
+  {
+    path:'/toNewsDetail',
+    component: NewsDetail
   },
   {
     path:'/toArticleDetail',

@@ -4,7 +4,6 @@
       <router-view v-if='$route.meta.keepAlive'/>
     </keep-alive>
     <router-view  v-if='!$route.meta.keepAlive'/>
-    <!-- <MainTabBar :items="items"></MainTabBar> -->
     <van-tabbar v-model="active" active-color="#07c160" inactive-color="#000" @change="onChange">
       <van-tabbar-item
         v-for="(item,index) in items"
@@ -58,6 +57,7 @@ export default {
   components: {
     MainTabBar
   }
+  
 };
 </script>
 

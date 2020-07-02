@@ -1,20 +1,14 @@
 <template>
   <div>
-    <van-nav-bar
-      title=""
-      left-text="返回"
-      right-text=""
-      left-arrow
-      @click-left="onClickLeft"
-    />
+    <van-nav-bar title left-text="返回" right-text left-arrow @click-left="onClickLeft" />
     <van-panel>
       <div style="text-align: center;" class="article-title">
         <h1>{{article.title}}</h1>
       </div>
       <div class="article-thumb">
-        <van-image width="400" height="200" :src="article.imgsrc" />
+        <van-image width="400" height="200" :src="article.imageUri" />
       </div>
-      <div class="article-content" v-html="article.content"></div>
+      <div class="article-content" v-html="article.htmlContent"></div>
     </van-panel>
   </div>
 </template>
@@ -27,13 +21,13 @@ export default {
     };
   },
   methods: {
-    onClickLeft(){
+    onClickLeft() {
       this.$router.go(-1);
     }
   }
 };
 </script>
-<style >
+<style>
 div.article-thumb {
   text-align: center;
 }
