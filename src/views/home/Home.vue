@@ -19,26 +19,31 @@
       <p id="docEngineer"></p>
       <p id="translate"></p>
     </div>
-    <van-tabs active="active" @change="onChange">
-      <van-tab title="推荐">
-        <Recommend :searchResult="news" ></Recommend>
+    <van-tabs v-model="active" @change="onChange">
+      <van-tab :title="item.menuName" v-for="(item,index) in menus"  :key="index">
+        <div v-if="active == index">
+          <router-view/>
+        </div>
+      </van-tab>
+      <!-- <van-tab title="推荐">
+        <Recommend :searchResult="news"></Recommend>
       </van-tab>
       <van-tab title="热点">热点</van-tab>
       <van-tab title="咖谈">
         <Talk></Talk>
       </van-tab>
-      <van-tab title="职位">职位</van-tab>
+      <van-tab title="职位">职位</van-tab> -->
     </van-tabs>
   </div>
 </template>
 <script>
-import Recommend from './recommend/Recommend'
-import Talk from './talk/Talk'
+//import Recommend from './recommend/Recommend'
+//import Talk from './talk/Talk'
 export default {
   name: "Home",
   components: {
-    Recommend,
-    Talk
+    //Recommend,
+    //Talk
   },
   data() {
     return {
@@ -51,7 +56,10 @@ export default {
       loading: false, // 上拉加载
       finished: false, // 上拉加载完毕
       offset: 100, // 滚动条与底部距离小于 offset 时触发load事件
-      scroll: 0
+      scroll: 0,
+      parentId:this.$route.query.parentId,
+      menus:[],
+      active:0
     };
   },
   methods: {
@@ -63,11 +71,21 @@ export default {
           url: "/api/front/search?key=" + this.value
         })
         .then(data => {
+          this.$store.commit('setSearchResult',{
+            value: data.data
+          });
           console.log(data);
-          this.news = data.data;
+          
         });
     },
-    onChange(name, title) {},
+    onChange(index, title) {
+      console.log(index+"=="+this.active);
+      
+      console.log(this.menus[index].menuPath);
+      this.$router.push({
+        path:this.menus[index].menuPath
+      })
+    },
     onDownRefresh() {},
     getJobSaray() {
       this.$axios
@@ -110,11 +128,24 @@ export default {
           doc.innerHTML = docHtml;
           translate.innerHTML = translateHtml;
         });
+    },
+    getMenuItem(){
+      console.log(this.$route);
+      this.$axios.request({
+        method:'get',
+        url:'/api/front/getMenuList?parentId='+this.parentId
+      }).then(res=>{
+        this.menus = res.data
+        this.$router.push({
+          path:this.menus[0].menuPath,
+        })
+      })
     }
   },
   mounted() {
     //this.getArticleList();
     this.getJobSaray();
+    this.getMenuItem();
   },
   activated() {
     console.log("首页被激活");

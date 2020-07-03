@@ -7,27 +7,46 @@ const News = () => import('../views/cart/News')
 const Profile = () => import('../views/profile/Profile')
 const NewsDetail = () => import('../views/home/NewsDetail')
 const ArticleDetail = () => import('../views/home/ArticleDetail')
+const Recommend = () => import('../views/home/recommend/Index')
+const Talk = () => import('../views/home/talk/Index')
 // 1.安装vue-router
 Vue.use(VueRouter)
 // 2.定义变量
 
 const routes = [
-  {
-    path:'/',
-    redirect: '/home',
-    meta:{
-      keepAlive:true,
-      scrollTop: 0
-    }
-  },
+  // {
+  //   path:'/',
+  //   redirect: '/home',
+  //   meta:{
+  //     keepAlive:true,
+  //     scrollTop: 0
+  //   }
+  // },
   {
     path:'/home',
     component: Home,
+    name:"首页",
     meta:{
-      keepAlive:true,
-      scrollTop: 0
-    }
-    
+      keepAlive:true
+    },
+    children:[
+      {
+        path: '/home/recommend',
+        component: Recommend,
+        name:"推荐",
+        meta:{
+          keepAlive:true
+        },
+      },
+      {
+        path: '/home/talk',
+        component: Talk,
+        name:'咖谈',
+        meta:{
+          keepAlive:true
+        },
+      }
+    ]
   },
   {
     path:'/category',
@@ -48,7 +67,8 @@ const routes = [
   {
     path:'/toArticleDetail',
     component: ArticleDetail
-  }
+  },
+  
 ]
 
 const router = new VueRouter({
