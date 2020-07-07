@@ -54,7 +54,7 @@ export default {
             this.pageIndex
         })
         .then(data => {
-          if(data.data.length<this.pageSize){
+          if (data.data.length < this.pageSize) {
             this.finished = true;
           }
           this.news = this.news.concat(data.data);
@@ -67,6 +67,17 @@ export default {
     },
     toNewsDetail(news) {
       window.localStorage.setItem("news", JSON.stringify(news));
+      //this.$store.commit("setNewsHot",{id:news.id})
+      this.$axios
+        .request({
+          method: "put",
+          url: "/api/front/updateNewsHot",
+          data: JSON.stringify(news),
+          headers: { "Content-Type": "application/json" }
+        })
+        .then(res => {
+          console.log(res);
+        });
       this.$router.push({
         path: "/toNewsDetail"
       });
@@ -82,7 +93,7 @@ export default {
       handler(newVal, oldVal) {
         this.news = this.searchResult;
       },
-      deep:false
+      deep: false
     }
   }
 };

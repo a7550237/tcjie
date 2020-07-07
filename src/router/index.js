@@ -9,10 +9,10 @@ const NewsDetail = () => import('../views/home/NewsDetail')
 const ArticleDetail = () => import('../views/home/ArticleDetail')
 const Recommend = () => import('../views/home/recommend/Index')
 const Talk = () => import('../views/home/talk/Index')
+const Active = () => import('../views/home/dynamic/Dynamic')
 // 1.安装vue-router
 Vue.use(VueRouter)
 // 2.定义变量
-
 const routes = [
   // {
   //   path:'/',
@@ -45,6 +45,14 @@ const routes = [
         meta:{
           keepAlive:true
         },
+      },
+      {
+        path: '/home/active',
+        component: Active,
+        name:"动态标签",
+        meta:{
+          keepAlive:true
+        }
       }
     ]
   },
