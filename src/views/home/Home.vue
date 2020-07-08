@@ -20,10 +20,10 @@
       <p id="translate"></p>
     </div>
     <van-tabs :sticky="true" v-model="active" swipe-threshold="5" @change="onChange">
-      <van-tab :title="item.menuName" v-for="(item,index) in menus"  :key="index">
-        <div v-if="item.type == 'active'"  slot="title" style="color:red" >{{item.menuName}}</div>
+      <van-tab :title="item.menuName" v-for="(item,index) in menus" :key="index">
+        <div v-if="item.type == 'active'" slot="title" style="color:red">{{item.menuName}}</div>
         <div v-if="active == index">
-          <router-view/>
+          <router-view />
         </div>
       </van-tab>
     </van-tabs>
@@ -32,8 +32,7 @@
 <script>
 export default {
   name: "Home",
-  components: {
-  },
+  components: {},
   data() {
     return {
       value: "",
@@ -70,19 +69,18 @@ export default {
       console.log(index + "==" + this.active);
 
       console.log(this.menus[index].menuPath);
-      if(this.menus[index].type == "active"){
-this.$router.push({
-        path: this.menus[index].menuPath,
-        query:{
-          contentLink:this.menus[index].contentLink
-        }
-      });
-      }else{
-this.$router.push({
-        path: this.menus[index].menuPath
-      });
+      if (this.menus[index].type == "active") {
+        this.$router.push({
+          path: this.menus[index].menuPath,
+          query: {
+            contentLink: this.menus[index].contentLink
+          }
+        });
+      } else {
+        this.$router.push({
+          path: this.menus[index].menuPath
+        });
       }
-      
     },
     onDownRefresh() {},
     getJobSaray() {
@@ -136,14 +134,15 @@ this.$router.push({
         })
         .then(res => {
           this.menus = res.data;
+          console.log("initmenus");
           this.$router.push({
             path: this.menus[0].menuPath
           });
         });
-    }
+    },
+    
   },
   mounted() {
-    //this.getArticleList();
     this.getJobSaray();
     this.getMenuItem();
   },
@@ -151,6 +150,10 @@ this.$router.push({
     console.log("首页被激活");
     //获取滑动坐标
     this.$refs.wrapper.scrollTop = this.scroll;
+    this.$router.push({
+      path: this.menus[this.active].menuPath
+    });
+    
   },
   deactivated() {
     console.log("首页被缓存");

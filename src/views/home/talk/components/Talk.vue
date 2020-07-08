@@ -45,7 +45,7 @@ export default {
             "/api/front/getArticleList?current=" +
             this.pageIndex +
             "&size=" +
-            this.pageSize
+            this.pageSize+"&flag=front"
         })
         .then(res => {
           if (res.data.length < this.pageSize) {

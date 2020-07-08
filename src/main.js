@@ -4,8 +4,10 @@ import router from './router/index'
 import Vant from 'vant';
 import axios from 'axios';
 import store from './store/store';
+import Share from 'vue-social-share';
 import 'vant/lib/index.css';
-
+import 'vue-social-share/dist/client.css';
+Vue.use(Share)
 Vue.use(Vant);
 Vue.prototype.$axios = axios;
 

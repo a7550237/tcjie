@@ -15,7 +15,11 @@
           <em>{{item.contentShort}}</em>
         </div>
         <div slot="thumb">
-          <van-image :src="item.imgsrc==null?'https://goss.veer.com/creative/vcg/veer/800water/veer-153835898.jpg':item.imgsrc" width="100" height="100" />
+          <van-image
+            :src="item.imgsrc==null?'https://goss.veer.com/creative/vcg/veer/800water/veer-153835898.jpg':item.imgsrc"
+            width="100"
+            height="100"
+          />
         </div>
         <div slot="footer">{{item.date}}</div>
       </van-card>
@@ -48,9 +52,9 @@ export default {
         .request({
           method: "get",
           url:
-            "/api/front/getNewsList?pageSize=" +
+            "/api/front/getNewsListOrderByHot?size=" +
             this.pageSize +
-            "&pageIndex=" +
+            "&current=" +
             this.pageIndex
         })
         .then(data => {

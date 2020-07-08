@@ -10,6 +10,8 @@ const ArticleDetail = () => import('../views/home/ArticleDetail')
 const Recommend = () => import('../views/home/recommend/Index')
 const Talk = () => import('../views/home/talk/Index')
 const Active = () => import('../views/home/dynamic/Dynamic')
+const Hot = () => import('../views/home/hot/Index')
+const Job = () => import('../views/home/job/Index')
 // 1.安装vue-router
 Vue.use(VueRouter)
 // 2.定义变量
@@ -45,6 +47,22 @@ const routes = [
         meta:{
           keepAlive:true
         },
+      },
+      {
+        path: '/home/hot',
+        component: Hot,
+        name:"热门",
+        meta:{
+          keepAlive:true
+        }
+      },
+      {
+        path: '/home/job',
+        component: Job,
+        name:"职位",
+        meta:{
+          keepAlive:true
+        }
       },
       {
         path: '/home/active',
