@@ -67,6 +67,14 @@ export default {
     },
     onChange(index, title) {
       console.log(index + "==" + this.active);
+      if (index == 3) {
+        this.$axios
+          .request({
+            method: "put",
+            url: "/api/front/saveVisitorBehavior?id=&behavior=职位"
+          })
+          .then(res => {});
+      }
 
       console.log(this.menus[index].menuPath);
       if (this.menus[index].type == "active") {
@@ -130,7 +138,9 @@ export default {
       this.$axios
         .request({
           method: "get",
-          url: "/api/front/getMenuList?parentId=" + this.parentId
+          url:
+            "/api/front/getMenuList?parentId=" +
+            (this.parentId == "undefined" ? 1 : this.parentId)
         })
         .then(res => {
           this.menus = res.data;
@@ -139,8 +149,7 @@ export default {
             path: this.menus[0].menuPath
           });
         });
-    },
-    
+    }
   },
   mounted() {
     this.getJobSaray();
@@ -153,7 +162,6 @@ export default {
     this.$router.push({
       path: this.menus[this.active].menuPath
     });
-    
   },
   deactivated() {
     console.log("首页被缓存");

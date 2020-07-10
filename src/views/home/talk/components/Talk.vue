@@ -60,9 +60,18 @@ export default {
       this.getArticleList();
     },
     toArticleDetail(article) {
-      window.localStorage.setItem("article", JSON.stringify(article));
+      //window.localStorage.setItem("article", JSON.stringify(article));
+      this.$axios.request({
+        method:'put',
+        url:'/api/front/saveVisitorBehavior?id='+article.id+"&behavior=咖谈"
+      }).then(res=>{
+        
+      })
       this.$router.push({
-        path: "/toArticleDetail"
+        path: "/toArticleDetail",
+        query:{
+          articleId:article.id
+        }
       });
     }
   },

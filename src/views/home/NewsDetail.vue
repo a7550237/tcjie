@@ -1,8 +1,9 @@
 <template>
   <div>
-    <van-nav-bar title left-text="返回" right-text left-arrow @click-left="onClickLeft">
-     <button slot="right" @click="onClick">123456</button>
-    </van-nav-bar>
+    <sticky>
+    <van-nav-bar  title left-text="返回" right-text left-arrow @click-left="onClickLeft">
+     <van-button icon="star-o" @click="onClick" round style="width:80px;height:30px;font-size: 10px;" slot="right" >分享</van-button>
+    </van-nav-bar></sticky>
     <van-panel>
       <i class="el-icon-share" ></i>
       <div style="text-align: center;" class="news-title">
@@ -35,17 +36,28 @@
   
 </template>
 <script>
+import sticky from "../../components/Sticky"
 export default {
   name: "NewsDetail",
+  components:{
+    sticky
+  },
   data() {
     return {
-      news: JSON.parse(window.localStorage.getItem("news")),
+      news: {},
       show: false,
     };
   },
   methods: {
     onClickLeft() {
-      this.$router.go(-1);
+      console.log(window.history.length);
+      
+      if(window.history.length>2){
+this.$router.go(-1);
+      }else{
+        this.$router.push("/home/recommend")
+      }
+      
     },
     isMultilingual() {
       return this.article.host.startsWith("https://multilingual.com");
@@ -64,16 +76,29 @@ export default {
     },
     beforeClose(){
 
+    },
+    getNewsInfo(){
+      this.$axios.request({
+        method:'get',
+        url:'/api/front/getNewsById?newsId='+this.$route.query.newsId
+      }).then(res=>{
+        this.news = res.data;
+        this.imageUrl();
+      })
     }
   },
   mounted() {
-    this.imageUrl();
+    //this.imageUrl();
+    this.getNewsInfo();
   },
   computed:{
     config(){
       return {
+        url:"https://www.baidu.com/",
+        source:"TCJie",
         title:this.news.title,
         image:this.news.imgsrc,
+        description:this.news.contentShort,
         sites: ['qzone', 'qq', 'weibo','wechat', 'douban','linkedin'] // 启用的站点
       }
     }
@@ -87,6 +112,7 @@ div.news-thumb {
 div.news-content {
   margin-left: 50px;
   margin-right: 50px;
+  margin-bottom: 20px;
 }
 div.news-title {
   margin-left: 20px;

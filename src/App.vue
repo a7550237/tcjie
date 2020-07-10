@@ -43,6 +43,8 @@ export default {
         .then(res => {
           this.items = res.data;
           console.log(this.items);
+          console.log(this.$router.currentRoute.path);
+          if(this.$router.currentRoute.path == '/')
           this.$router.push({
             path: this.items[0].menuPath,
             query: {

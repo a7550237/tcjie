@@ -70,8 +70,9 @@ export default {
       this.getNewsList();
     },
     toNewsDetail(news) {
-      window.localStorage.setItem("news", JSON.stringify(news));
+      //window.localStorage.setItem("news", JSON.stringify(news));
       //this.$store.commit("setNewsHot",{id:news.id})
+      news.attr1 = '热点';
       this.$axios
         .request({
           method: "put",
@@ -83,7 +84,10 @@ export default {
           console.log(res);
         });
       this.$router.push({
-        path: "/toNewsDetail"
+        path: "/toNewsDetail",
+        query:{
+          newsId:news.id
+        }
       });
     }
   },
