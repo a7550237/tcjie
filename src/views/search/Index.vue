@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="search-box">
-      <search-bar :onChange="onChange" :onSearch="onSearch" v-model="searchKey">
+      <search-bar :onChange="onChange" :onSearch="onSearch">
         <div class="hot-wrapper">
           <div class="tip">热门搜索</div>
           <div class="label-wraper">
@@ -29,17 +29,12 @@ export default {
   data() {
     return {
       imgUrl: "http://data618.oss-cn-qingdao.aliyuncs.com/ys/3524/img/b.jpg",
-      reslist: ["如何创建一个Vue组件", "Vue的生命周期", "Vue路由"],
-      searchKey:''
+      reslist: ["如何创建一个Vue组件", "Vue的生命周期", "Vue路由"]
     };
   },
   methods: {
-    onChange(value) {
-      console.log("change="+value);
-    },
-    onSearch(value) {
-      console.log("search="+value);
-    }
+    onChange(value) {},
+    onSearch(value) {}
   }
 };
 </script>

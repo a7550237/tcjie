@@ -9,10 +9,10 @@
     >
       <van-card @click="toNewsDetail(item)" v-bind:key="i" v-for="(item,i) in news">
         <div style="margin-left:30px" slot="title">
-          <b>{{item.title}}</b>
+          <b v-html="item.title"></b>
         </div>
         <div style="margin-left:30px;margin-top:10px" slot="desc">
-          <em>{{item.contentShort}}</em>
+          <em v-html="item.contentShort"></em>
         </div>
         <div slot="thumb">
           <van-image :src="item.imgsrc==null?'https://goss.veer.com/creative/vcg/veer/800water/veer-153835898.jpg':item.imgsrc" width="100" height="100" />

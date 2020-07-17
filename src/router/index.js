@@ -12,6 +12,7 @@ const Talk = () => import('../views/home/talk/Index')
 const Active = () => import('../views/home/dynamic/Dynamic')
 const Hot = () => import('../views/home/hot/Index')
 const Job = () => import('../views/home/job/Index')
+const Search = () => import("../views/search/Index")
 // 1.安装vue-router
 Vue.use(VueRouter)
 // 2.定义变量
@@ -94,7 +95,10 @@ const routes = [
     path:'/toArticleDetail',
     component: ArticleDetail
   },
-  
+  {
+    path:'/search',
+    component: Search
+  }
 ]
 
 const router = new VueRouter({
