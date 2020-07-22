@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app">
     <sticky>
       <van-nav-bar title left-text="返回" right-text left-arrow @click-left="onClickLeft">
         <van-button
@@ -94,15 +94,16 @@ export default {
       var imgs = document.getElementsByTagName("img");
       const deviceWidth = document.documentElement.clientWidth;
       const deviceHeight = document.documentElement.clientHeight;
-      
+      console.log(imgs);
       for (var img of imgs) {
         var width = img.width;
         var height = img.height;
+        console.log(width + " = " + height);
         if(width>deviceWidth){
           img.style.width = (deviceWidth-100) + "px";
           img.width = deviceWidth - 70;
           img.style.height = height * deviceWidth / width-300 + " px";
-          console.log(deviceWidth + "  " + deviceHeight + "  " + width + "  " + height);
+          console.log(deviceWidth + "  " + deviceHeight + "  " + img.width + "  " + img.height);
         }
         
       }
@@ -111,10 +112,17 @@ export default {
   mounted() {
     //this.imageUrl();
     this.getNewsInfo();
-    
+    console.log("mounted");
   },
   updated(){
+    console.log("updated");
     this.initImageSize();
+    var imgs = document.querySelectorAll("div.pgc-img p img");
+    for(var img of imgs){
+      img.attributes['src'].nodeValue = img.attributes['data-src'].nodeValue;
+      img.parentElement.style['min-height'] = '200px'
+      
+    }
   },
   computed: {
     config() {
@@ -130,20 +138,47 @@ export default {
   }
 };
 </script>
-<style >
-div.news-thumb {
+<style scoped>
+#app >>> div.news-thumb {
   text-align: center;
 }
-div.news-content {
+#app >>> div.news-content {
   margin-left: 50px;
   margin-right: 50px;
   margin-bottom: 20px;
 }
-div.news-title {
+#app >>> div.news-title {
   margin-left: 20px;
   margin-right: 20px;
 }
-div.green {
+#app >>> div.green {
   background: chartreuse;
+}
+#app >>> blockquote {
+    background: #f0f0f0;
+    border-left: 4px solid #57c9e9;
+    margin: 0 0 1rem;
+    padding: 10px 16px;
+    margin-bottom: 28px;
+    border-radius: 10px;
+    position: relative;
+    display: block;
+}
+#app >>> body{
+  font-family: Lato,sans-serif;
+}
+#app >>> p {
+    color: #000;
+    font-weight: 400;
+    line-height: 2rem;
+    font-size: 1rem;
+}
+#app >>> .pgc-img img {
+    width: 100%;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 4px;
+    transition: opacity 200ms ease;
 }
 </style>
