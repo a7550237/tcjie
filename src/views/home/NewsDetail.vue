@@ -16,9 +16,9 @@
       <div style="text-align: center;" class="news-title">
         <h1>{{news.title}}</h1>
       </div>
-      <div class="news-thumb">
+      <!-- <div class="news-thumb">
         <van-image width="400" height="200" :src="news.imgsrc" />
-      </div>
+      </div> -->
       <div class="news-content" v-html="news.content"></div>
       <div v-if="isMultilingual" class="news-content">
         <h3>{{news.attr1}}</h3>
@@ -96,9 +96,15 @@ export default {
       const deviceHeight = document.documentElement.clientHeight;
       console.log(imgs);
       for (var img of imgs) {
-        var width = img.width;
-        var height = img.height;
+        var width = img.getAttribute('width');
+        var height = img.getAttribute('height');
         console.log(width + " = " + height);
+        if(width == null){
+          img.setAttribute("width",deviceWidth-100);
+          img.parentElement.style.textAlign = 'center';
+          img.style.marginRight = '50px';
+          console.log(img.getAttribute('width'))
+        }
         if(width>deviceWidth){
           img.style.width = (deviceWidth-100) + "px";
           img.width = deviceWidth - 70;
@@ -118,10 +124,10 @@ export default {
     console.log("updated");
     this.initImageSize();
     var imgs = document.querySelectorAll("div.pgc-img p img");
+    console.log(imgs);
     for(var img of imgs){
       img.attributes['src'].nodeValue = img.attributes['data-src'].nodeValue;
       img.parentElement.style['min-height'] = '200px'
-      
     }
   },
   computed: {
@@ -181,4 +187,18 @@ export default {
     margin-top: 4px;
     transition: opacity 200ms ease;
 }
+#app >>> ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+#app >>> ol, ul {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
 </style>
