@@ -4,22 +4,19 @@
     ref="wrapper"
     style="overflow: auto; position: absolute; top: 0; bottom: 0; right: 0; left: 0;"
   >
-    <van-search
-      v-model="value"
-      show-action
-      placeholder="请输入搜索关键词"
-      background="#4fc08d"
-      shape="round"
-      @search="onSearch"
-    >
-      <div slot="action" @click="onSearch">搜索</div>
-    </van-search>
+    <van-search v-model="value" @focus="focus" placeholder="请输入搜索关键词" />
     <div id="saray">
       <p>行业薪金指数</p>
-      <p id="docEngineer"></p>
-      <p id="translate"></p>
+        <p id="docEngineer"></p>
+        <p id="translate"></p>
     </div>
-    <van-tabs :sticky="true" v-model="active" swipe-threshold="5" @change="onChange">
+    <van-tabs
+      :sticky="true"
+      v-model="active"
+      swipe-threshold="5"
+      @change="onChange"
+      :swipeable="true"
+    >
       <van-tab :title="item.menuName" v-for="(item,index) in menus" :key="index">
         <div v-if="item.type == 'active'" slot="title" style="color:red">{{item.menuName}}</div>
         <div v-if="active == index">
@@ -47,33 +44,39 @@ export default {
       scroll: 0,
       parentId: this.$route.query.parentId,
       menus: [],
-      active: 0
+      active: 0,
     };
   },
   methods: {
+    focus() {
+      this.$router.push({
+        path: "/search",
+      });
+    },
     onSearch() {
       if (this.value == null) return;
       this.$axios
         .request({
           method: "get",
-          url: "/api/front/search?key=" + this.value
+          url: "/api/front/search?key=" + this.value,
         })
-        .then(data => {
+        .then((data) => {
           this.$store.commit("setSearchResult", {
-            value: data.data
+            value: data.data,
           });
           console.log(data);
         });
     },
+    toSearchIndex() {},
     onChange(index, title) {
       console.log(index + "==" + this.active);
       if (index == 3) {
         this.$axios
           .request({
             method: "put",
-            url: "/api/front/saveVisitorBehavior?id=&behavior=职位"
+            url: "/api/front/saveVisitorBehavior?id=&behavior=职位",
           })
-          .then(res => {});
+          .then((res) => {});
       }
 
       console.log(this.menus[index].menuPath);
@@ -81,12 +84,12 @@ export default {
         this.$router.push({
           path: this.menus[index].menuPath,
           query: {
-            contentLink: this.menus[index].contentLink
-          }
+            contentLink: this.menus[index].contentLink,
+          },
         });
       } else {
         this.$router.push({
-          path: this.menus[index].menuPath
+          path: this.menus[index].menuPath,
         });
       }
     },
@@ -95,14 +98,14 @@ export default {
       this.$axios
         .request({
           method: "get",
-          url: "/api/front/saray"
+          url: "/api/front/saray",
         })
-        .then(data => {
+        .then((data) => {
           var job = data.data;
-          var translateHtml = "翻译：";
+          var translateHtml = "&emsp;&emsp;&emsp;翻译：";
           var docHtml = "文档工程师：";
           var increasePercentFlag = "";
-          job.forEach(element => {
+          job.forEach((element) => {
             if (element.increasePercent > 0)
               increasePercentFlag = "<b style='color:green'>&uarr;";
             else increasePercentFlag = "<b style='color:red'>&darr;";
@@ -129,48 +132,47 @@ export default {
           });
           var doc = document.getElementById("docEngineer");
           var translate = document.getElementById("translate");
-          doc.innerHTML = docHtml;
-          translate.innerHTML = translateHtml;
+
+          doc.insertAdjacentHTML("afterBegin", docHtml);
+          translate.insertAdjacentHTML("afterBegin", translateHtml);
         });
     },
     getMenuItem() {
-      console.log(this.$route);
       this.$axios
         .request({
           method: "get",
           url:
             "/api/front/getMenuList?parentId=" +
-            (this.parentId == "undefined" ? 1 : this.parentId)
+            (this.parentId == "undefined" ? 1 : this.parentId),
         })
-        .then(res => {
+        .then((res) => {
           this.menus = res.data;
-          console.log("initmenus");
           this.$router.push({
-            path: this.menus[0].menuPath
+            path: this.menus[0].menuPath,
           });
         });
-    }
+    },
   },
   mounted() {
+    console.log('home mounted');
     this.getJobSaray();
     this.getMenuItem();
   },
   activated() {
-    console.log("首页被激活");
     //获取滑动坐标
+    console.log('home activated');
     this.$refs.wrapper.scrollTop = this.scroll;
-    this.$router.push({
-      path: this.menus[this.active].menuPath
-    });
+    // this.$router.push({
+    //   path: this.menus[this.active].menuPath,
+    // });
   },
   deactivated() {
-    console.log("首页被缓存");
   },
   beforeRouteLeave(to, from, next) {
     //缓存滑动坐标
     this.scroll = this.$refs.wrapper.scrollTop;
     next();
-  }
+  },
 };
 </script>
 <style>

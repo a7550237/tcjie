@@ -55,8 +55,6 @@ export default {
   },
   methods: {
     onClickLeft() {
-      console.log(window.history.length);
-
       if (window.history.length > 2) {
         this.$router.go(-1);
       } else {
@@ -94,24 +92,19 @@ export default {
       var imgs = document.getElementsByTagName("img");
       const deviceWidth = document.documentElement.clientWidth;
       const deviceHeight = document.documentElement.clientHeight;
-      console.log(imgs);
       for (var img of imgs) {
         var width = img.getAttribute('width');
         var height = img.getAttribute('height');
-        console.log(width + " = " + height);
         if(width == null){
           img.setAttribute("width",deviceWidth-100);
           img.parentElement.style.textAlign = 'center';
           img.style.marginRight = '50px';
-          console.log(img.getAttribute('width'))
         }
         if(width>deviceWidth){
           img.style.width = (deviceWidth-100) + "px";
           img.width = deviceWidth - 70;
           img.style.height = height * deviceWidth / width-300 + " px";
-          console.log(deviceWidth + "  " + deviceHeight + "  " + img.width + "  " + img.height);
         }
-        
       }
     }
   },
@@ -124,7 +117,6 @@ export default {
     console.log("updated");
     this.initImageSize();
     var imgs = document.querySelectorAll("div.pgc-img p img");
-    console.log(imgs);
     for(var img of imgs){
       img.attributes['src'].nodeValue = img.attributes['data-src'].nodeValue;
       img.parentElement.style['min-height'] = '200px'
@@ -153,6 +145,19 @@ export default {
   margin-right: 50px;
   margin-bottom: 20px;
 }
+
+#app >>> figure {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 1px;
+    margin-inline-end: 1px;
+}
+
+#app >>> a{
+  word-wrap:break-word;
+}
+
 #app >>> div.news-title {
   margin-left: 20px;
   margin-right: 20px;

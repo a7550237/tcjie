@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-const Home = () => import('../views//home/Home')
+const Home = () => import('../views/home/Home')
 const Category = () => import('../views/category/Category')
 const News = () => import('../views/cart/News')
 const Profile = () => import('../views/profile/Profile')
@@ -13,6 +13,7 @@ const Active = () => import('../views/home/dynamic/Dynamic')
 const Hot = () => import('../views/home/hot/Index')
 const Job = () => import('../views/home/job/Index')
 const Search = () => import("../views/search/Index")
+const SearchItemDetail = () => import("../views/search/components/SearchItemDetail")
 // 1.安装vue-router
 Vue.use(VueRouter)
 // 2.定义变量
@@ -97,7 +98,11 @@ const routes = [
   },
   {
     path:'/search',
-    component: Search
+    component: Search,
+    meta:{
+      keepAlive:true
+    }
+
   }
 ]
 

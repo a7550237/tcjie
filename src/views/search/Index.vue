@@ -1,22 +1,21 @@
 <template>
   <div>
     <div class="search-box">
-      <search-bar ref="searchBar" :onChange="onChange" :onSearch="onSearch" v-model="searchKey" >
-        <div class="hot-wrapper">
-          <div class="tip">热门搜索</div>
-          <div class="label-wraper">
-            <div class="label" v-for="(item,index) in hotSearchList" :key="index" @click="onSearch(item.attr1)" >{{item.attr1}}</div>
-          </div>
-          <!-- <div class="search-list">
-            <div :key="index" v-for="(item,index) in reslist" class="list-item">
-              <div class="left-item">
-                <span>{{item}}</span>
-              </div>
-              <div></div>
+      <sticky>
+        <search-bar ref="searchBar" :onChange="onChange" :onSearch="onSearch" v-model="searchKey">
+          <div class="hot-wrapper">
+            <div class="tip">热门搜索</div>
+            <div class="label-wraper">
+              <div
+                class="label"
+                v-for="(item,index) in hotSearchList"
+                :key="index"
+                @click="onSearch(item.attr1)"
+              >{{item.attr1}}</div>
             </div>
-          </div> -->
-        </div>
-      </search-bar>
+          </div>
+        </search-bar>
+      </sticky>
     </div>
     <van-list
       v-model="loading"
@@ -45,11 +44,13 @@
   </div>
 </template>
 <script>
+import sticky from "../../components/Sticky";
 export default {
+  components:{
+    sticky
+  },
   data() {
     return {
-      imgUrl: "http://data618.oss-cn-qingdao.aliyuncs.com/ys/3524/img/b.jpg",
-      reslist: ["如何创建一个Vue组件", "Vue的生命周期", "Vue路由"],
       searchKey: "",
       news: [],
       pageSize: 10, // 每页条数
@@ -58,7 +59,7 @@ export default {
       finished: false, // 上拉加载完毕
       offset: 100, // 滚动条与底部距离小于 offset 时触发load事件
       scroll: 0,
-      hotSearchList:[]
+      hotSearchList: [],
     };
   },
   methods: {
@@ -66,6 +67,9 @@ export default {
       console.log("change=" + value);
     },
     onSearch(value) {
+      this.pageIndex = 1;
+      this.news = [];
+      this.finished = false;
       this.searchKey = value;
       this.getSearchList();
       this.$refs.searchBar.hideDialog();
@@ -73,6 +77,27 @@ export default {
     onLoadList() {
       this.pageIndex++;
       this.getSearchList();
+    },
+    toNewsDetail(news) {
+      //window.localStorage.setItem("news", JSON.stringify(news));
+      //this.$store.commit("setNewsHot",{id:news.id})
+      news.attr1 = "推荐";
+      this.$axios
+        .request({
+          method: "put",
+          url: "/api/front/updateNewsHot",
+          data: JSON.stringify(news),
+          headers: { "Content-Type": "application/json" },
+        })
+        .then((res) => {
+          console.log(res);
+        });
+      this.$router.push({
+        path: "/toNewsDetail",
+        query: {
+          newsId: news.id,
+        },
+      });
     },
     getSearchList() {
       this.$axios
@@ -90,24 +115,25 @@ export default {
           if (data.data.length < this.pageSize) {
             this.finished = true;
           }
-          this.news = data.data;
+          this.news = this.news.concat(data.data);
           this.loading = false;
         });
     },
-    initHotSeachList(){
-      this.$axios.request({
-        method:'get',
-        url:'/api/front/getHotSearchKey'
-      }).then(res=>{
-        this.hotSearchList = res.data
-      })
-    }
-
+    initHotSeachList() {
+      this.$axios
+        .request({
+          method: "get",
+          url: "/api/front/getHotSearchKey",
+        })
+        .then((res) => {
+          this.hotSearchList = res.data;
+        });
+    },
   },
-  mounted(){
-    
+  mounted() {
+    this.$refs.searchBar.showDialog();
     this.initHotSeachList();
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>
