@@ -81,7 +81,7 @@ const routes = [
     component: Category
   },
   {
-    path:'/news',
+    path:'/cart',
     component: News
   },
   {

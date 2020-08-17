@@ -37,6 +37,7 @@ export default {
         path: this.items[index].menuPath,
         query: {
           parentId: this.items[index].id,
+          contentLink:this.items[index].contentLink
         },
       });
     },
