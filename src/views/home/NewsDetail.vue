@@ -11,7 +11,7 @@
         >分享</van-button>
       </van-nav-bar>
     </sticky>
-    <van-panel>
+    <van-panel id="news-content">
       <i class="el-icon-share"></i>
       <div style="text-align: center;" class="news-title">
         <h1>{{news.title}}</h1>
@@ -92,10 +92,15 @@ export default {
       var imgs = document.getElementsByTagName("img");
       const deviceWidth = document.documentElement.clientWidth;
       const deviceHeight = document.documentElement.clientHeight;
+      console.log(156);
       for (var img of imgs) {
         var width = img.getAttribute('width');
         var height = img.getAttribute('height');
         if(width == null){
+          if(img.parentElement.getAttribute('class') == 'qrcode'){
+            console.log(336);
+            continue;
+          }
           img.setAttribute("width",deviceWidth-100);
           img.parentElement.style.textAlign = 'center';
           img.style.marginRight = '50px';
@@ -178,7 +183,7 @@ export default {
 #app >>> body{
   font-family: Lato,sans-serif;
 }
-#app >>> p {
+#app >>> #news-content p {
     color: #000;
     font-weight: 400;
     line-height: 2rem;
